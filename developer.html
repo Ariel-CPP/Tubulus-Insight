@@ -1,92 +1,84 @@
-// developer.js
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tubulus Insight – Developer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-import { Model } from "./js/model.js";
-import { loadModel } from "./js/autosave.js";
+<body>
 
-// load model dulu
-loadModel();
+<!-- HEADER -->
+<header class="cp-header">
+  <div class="cp-header-inner">
+    <div class="cp-brand">
+      <div class="cp-logo-circle">TI</div>
+      <div>
+        <div class="cp-brand-name">Tubulus Insight</div>
+        <div class="cp-brand-subtitle">Developer Dashboard</div>
+      </div>
+    </div>
+  </div>
+</header>
 
-const passwordInput = document.getElementById("passwordInput");
-const loginBtn = document.getElementById("loginBtn");
-const loginMsg = document.getElementById("loginMsg");
+<main class="cp-main">
 
-const dashboard = document.getElementById("dashboard");
-const loginSection = document.getElementById("loginSection");
+  <!-- LOGIN -->
+  <section class="cp-section" id="loginSection">
+    <div class="cp-card">
 
-const statsTable = document.getElementById("statsTable");
+      <h2 class="cp-section-title">Developer Access</h2>
 
-// ================= LOGIN =================
+      <div class="cp-field-group">
+        <input
+          type="password"
+          id="passwordInput"
+          placeholder="Enter password"
+          class="cp-input"
+        />
+      </div>
 
-loginBtn.onclick = () => {
-  const pass = passwordInput.value;
+      <button id="loginBtn" class="cp-btn cp-btn-primary">
+        Login
+      </button>
 
-  if (pass === "AHL-CPP") {
-    loginSection.style.display = "none";
-    dashboard.style.display = "block";
+      <div id="loginMsg" class="cp-helper-text"></div>
 
-    renderStats();
-  } else {
-    loginMsg.innerText = "Wrong password";
-  }
-};
+    </div>
+  </section>
 
-// ================= STATS =================
+  <!-- DASHBOARD -->
+  <section class="cp-section" id="dashboard" style="display:none;">
 
-function renderStats() {
-  const categories = ["post_larva", "juvenile", "shrimp"];
+    <h2 class="cp-section-title">Dataset Statistics</h2>
 
-  let html = `
-    <table class="cp-table">
-      <thead>
-        <tr>
-          <th>Category</th>
-          <th>Count</th>
-          <th>Mean (%)</th>
-          <th>Std Dev</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
+    <div class="cp-card">
+      <div id="statsTable"></div>
+    </div>
 
-  let totalAll = 0;
+  </section>
 
-  categories.forEach(cat => {
-    const data = Model[cat];
-    const values = data.map(d => d.label);
+</main>
 
-    const count = values.length;
-    totalAll += count;
+<footer class="cp-footer">
+  <div class="cp-footer-content">
+    <div class="cp-footer-title">
+      Tubulus Insight – Shrimp Hepatopancreas Analysis Tool
+    </div>
+    <div class="cp-footer-sub">
+      Animal Health Laboratory - Technology Division
+    </div>
+    <div class="cp-footer-sub">
+      Central Proteina Prima
+    </div>
+    <div class="cp-footer-year">
+      2026
+    </div>
+  </div>
+</footer>
 
-    const mean = count ? avg(values) : 0;
-    const std = count ? stddev(values, mean) : 0;
+<script type="module" src="developer.js"></script>
 
-    html += `
-      <tr>
-        <td>${cat}</td>
-        <td>${count}</td>
-        <td>${mean.toFixed(1)}</td>
-        <td>${std.toFixed(2)}</td>
-      </tr>
-    `;
-  });
-
-  html += `
-      </tbody>
-    </table>
-    <p><strong>Total dataset:</strong> ${totalAll}</p>
-  `;
-
-  statsTable.innerHTML = html;
-}
-
-// ================= MATH =================
-
-function avg(arr) {
-  return arr.reduce((a, b) => a + b, 0) / arr.length;
-}
-
-function stddev(arr, mean) {
-  return Math.sqrt(
-    arr.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / arr.length
-  );
-}
+</body>
+</html>
