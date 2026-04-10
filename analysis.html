@@ -9,13 +9,14 @@
 
 <body data-page="analysis">
 
+<!-- HEADER -->
 <header class="cp-header">
   <div class="cp-header-inner">
     <div class="cp-brand">
       <div class="cp-logo-circle">TI</div>
-      <div class="cp-brand-text">
+      <div>
         <div class="cp-brand-name">Tubulus Insight</div>
-        <div class="cp-brand-subtitle">Hepatopancreas Nutrition Particle AI</div>
+        <div class="cp-brand-subtitle">Hepatopancreas Nutrition AI</div>
       </div>
     </div>
 
@@ -26,59 +27,74 @@
   </div>
 </header>
 
+<!-- MAIN -->
 <main class="cp-main">
 
   <!-- HERO -->
   <section class="cp-hero">
-    <div class="cp-hero-text">
+    <div>
       <h1 class="cp-hero-title">Tubulus Analysis</h1>
       <p class="cp-hero-description">
-        Upload hepatopancreas images and estimate nutrition particle percentage using the trained model.
+        Analyze hepatopancreas tubulus images using trained model.
       </p>
     </div>
   </section>
 
   <!-- ANALYSIS -->
   <section class="cp-section">
-    <h2 class="cp-section-title">Analyze Images</h2>
+    <h2 class="cp-section-title">Image Analysis</h2>
 
     <div class="cp-card">
 
+      <!-- CATEGORY -->
       <div class="cp-field-group">
         <label class="cp-field-label">Category</label>
-        <select id="categorySelect" class="cp-select">
+        <select id="categorySelect">
           <option value="post_larva">Post Larva</option>
           <option value="juvenile">Juvenile</option>
           <option value="shrimp">Shrimp</option>
         </select>
       </div>
 
+      <!-- FILE INPUT -->
       <div class="cp-field-group">
         <label class="cp-field-label">Images</label>
+
         <div class="cp-file-row">
-          <input type="file" id="imageInput" accept="image/*" multiple class="cp-file-input">
-          <label for="imageInput" class="cp-btn cp-btn-outline">Choose images</label>
-          <span class="cp-file-label" id="fileLabel">No files selected</span>
+          <input type="file" id="imageInput" multiple accept="image/*" class="cp-file-input">
+          <label for="imageInput" class="cp-btn cp-btn-outline">Choose Images</label>
+          <span id="fileLabel" class="cp-file-label">No files selected</span>
         </div>
       </div>
 
+      <!-- PREVIEW -->
+      <div id="previewContainer" class="cp-grid-2"></div>
+
+      <!-- BUTTON -->
       <button id="analyzeBtn" class="cp-btn cp-btn-primary">
-        Analyze
+        Analyze Images
       </button>
 
-      <div id="loading" style="display:none;">Processing...</div>
+      <!-- LOADING -->
+      <div id="loading" class="cp-helper-text" style="display:none;">
+        ⏳ Processing analysis...
+      </div>
 
-      <div id="results" class="cp-log"></div>
+      <!-- RESULTS -->
+      <div id="results" class="cp-grid-2"></div>
 
     </div>
   </section>
 
 </main>
 
+<!-- FOOTER -->
 <footer class="cp-footer">
   Tubulus Insight – Shrimp Hepatopancreas Analysis Tool
 </footer>
 
+<!-- SCRIPT -->
 <script type="module" src="analysis.js"></script>
+
 </body>
 </html>
