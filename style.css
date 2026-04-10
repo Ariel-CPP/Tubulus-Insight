@@ -287,11 +287,37 @@ body {
   }
 }
 
-/* ===== FOOTER ===== */
+/* ===== FOOTER ENHANCED ===== */
+
 .cp-footer {
   text-align: center;
-  font-size: 11px;
+  padding: 30px 20px;
   margin-top: 40px;
-  padding: 20px;
+  background: linear-gradient(180deg, #ffffff, #eef4fb);
+  border-top: 1px solid #dbe7f5;
+}
+
+.cp-footer-content {
+  max-width: 600px;
+  margin: auto;
+}
+
+.cp-footer-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #002f5b;
+  margin-bottom: 6px;
+}
+
+.cp-footer-sub {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.cp-footer-year {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #94a3b8;
+}
   color: var(--cp-text-muted);
 }
