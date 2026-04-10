@@ -1,157 +1,80 @@
-// analysis.js
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tubulus Insight – Analysis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-import { extractFeatures } from "./js/feature.js";
-import { predict, getGrade } from "./js/model.js";
-import { loadModel } from "./js/autosave.js";
+<body>
 
-// ================= INIT =================
+<header class="cp-header">
+  <div class="cp-header-inner">
+    <div class="cp-brand">
+      <div class="cp-logo-circle">TI</div>
+      <div>
+        <div class="cp-brand-name">Tubulus Insight</div>
+        <div class="cp-brand-subtitle">Hepatopancreas Nutrition AI</div>
+      </div>
+    </div>
 
-// load model dari localStorage saat halaman dibuka
-loadModel();
+    <nav class="cp-nav">
+      <a href="index.html" class="cp-nav-link">Training</a>
+      <a href="analysis.html" class="cp-nav-link cp-nav-link-active">Analysis</a>
+    </nav>
+  </div>
+</header>
 
-// ================= UI ELEMENTS =================
+<main class="cp-main">
 
-const input = document.getElementById("imageInput");
-const label = document.getElementById("fileLabel");
-const button = document.getElementById("analyzeBtn");
-const loading = document.getElementById("loading");
-const results = document.getElementById("results");
-const previewContainer = document.getElementById("previewContainer");
-const categorySelect = document.getElementById("categorySelect");
+  <section class="cp-section">
+    <h2 class="cp-section-title">Image Analysis</h2>
 
-// ================= DATA STORAGE (UNTUK EXPORT) =================
+    <div class="cp-card">
 
-let analysisResults = [];
+      <div class="cp-field-group">
+        <label class="cp-field-label">Category</label>
+        <select id="categorySelect">
+          <option value="post_larva">Post Larva</option>
+          <option value="juvenile">Juvenile</option>
+          <option value="shrimp">Shrimp</option>
+        </select>
+      </div>
 
-// ================= PREVIEW =================
+      <div class="cp-field-group">
+        <label class="cp-field-label">Images</label>
 
-input.addEventListener("change", () => {
-  const files = input.files;
-
-  label.innerText = `${files.length} files selected`;
-
-  previewContainer.innerHTML = "";
-
-  Array.from(files).forEach(file => {
-    const img = document.createElement("img");
-    img.src = URL.createObjectURL(file);
-    previewContainer.appendChild(img);
-  });
-});
-
-// ================= ANALYZE =================
-
-button.addEventListener("click", async () => {
-  const files = input.files;
-  const category = categorySelect.value;
-
-  if (!files.length) {
-    alert("Please select images first");
-    return;
-  }
-
-  results.innerHTML = "";
-  analysisResults = [];
-  loading.style.display = "block";
-
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-
-    try {
-      const feature = await extractFeatures(file);
-      const pred = predict(category, feature);
-
-      // jika model kosong
-      if (!pred) {
-        results.innerHTML += `
-          <div class="cp-card">
-            <div class="cp-card-title">${file.name}</div>
-            <div class="cp-card-text">❌ Model not trained</div>
-          </div>
-        `;
-        continue;
-      }
-
-      const grade = getGrade(pred.percentage);
-      const confidence = Number(pred.confidence.toFixed(2));
-
-      // simpan ke array untuk export
-      analysisResults.push({
-        file: file.name,
-        prediction: pred.percentage,
-        grade: grade,
-        confidence: confidence
-      });
-
-      // tampilkan hasil
-      results.innerHTML += `
-        <div class="cp-card">
-          <div class="cp-card-title">${file.name}</div>
-          <div class="cp-card-text">
-            Prediction: <strong>${pred.percentage}%</strong><br>
-            Grade: <strong>${grade}</strong><br>
-            Confidence: <strong>${confidence}</strong>
-          </div>
+        <div class="cp-file-row">
+          <input type="file" id="imageInput" multiple accept="image/*" class="cp-file-input">
+          <label for="imageInput" class="cp-btn cp-btn-outline">Choose Images</label>
+          <span id="fileLabel" class="cp-file-label">No files selected</span>
         </div>
-      `;
+      </div>
 
-    } catch (err) {
-      console.error(err);
+      <div id="previewContainer" class="cp-grid-2"></div>
 
-      results.innerHTML += `
-        <div class="cp-card">
-          <div class="cp-card-title">${file.name}</div>
-          <div class="cp-card-text">❌ Error processing image</div>
-        </div>
-      `;
-    }
-  }
+      <button id="analyzeBtn" class="cp-btn cp-btn-primary">
+        Analyze Images
+      </button>
 
-  loading.style.display = "none";
+      <div id="loading" style="display:none;">Processing...</div>
 
-  // tampilkan tombol export jika ada hasil
-  if (analysisResults.length > 0) {
-    renderExportButton();
-  }
-});
+      <div id="results" class="cp-grid-2"></div>
 
-// ================= EXPORT BUTTON =================
+    </div>
+  </section>
 
-function renderExportButton() {
-  const existingBtn = document.getElementById("exportBtn");
-  if (existingBtn) existingBtn.remove();
+</main>
 
-  const btn = document.createElement("button");
-  btn.id = "exportBtn";
-  btn.innerText = "Download Excel";
-  btn.className = "cp-btn cp-btn-primary";
-  btn.style.marginTop = "15px";
+<footer class="cp-footer">
+  Tubulus Insight
+</footer>
 
-  btn.onclick = exportToExcel;
+<!-- 🔥 WAJIB -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
-  results.appendChild(btn);
-}
+<script type="module" src="analysis.js"></script>
 
-// ================= EXPORT TO EXCEL =================
-
-function exportToExcel() {
-
-  if (analysisResults.length === 0) {
-    alert("No data to export");
-    return;
-  }
-
-  const formattedData = analysisResults.map(row => ({
-    "Nama file": row.file,
-    "Prediction Nutrition partikel (%)": row.prediction,
-    "Grade": row.grade,
-    "confidence rate": row.confidence
-  }));
-
-  const worksheet = XLSX.utils.json_to_sheet(formattedData);
-  const workbook = XLSX.utils.book_new();
-
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Results");
-
-  XLSX.writeFile(workbook, "tubulus_analysis.xlsx");
-}
+</body>
+</html>
