@@ -1,0 +1,92 @@
+// developer.js
+
+import { Model } from "./js/model.js";
+import { loadModel } from "./js/autosave.js";
+
+// load model dulu
+loadModel();
+
+const passwordInput = document.getElementById("passwordInput");
+const loginBtn = document.getElementById("loginBtn");
+const loginMsg = document.getElementById("loginMsg");
+
+const dashboard = document.getElementById("dashboard");
+const loginSection = document.getElementById("loginSection");
+
+const statsTable = document.getElementById("statsTable");
+
+// ================= LOGIN =================
+
+loginBtn.onclick = () => {
+  const pass = passwordInput.value;
+
+  if (pass === "AHL-CPP") {
+    loginSection.style.display = "none";
+    dashboard.style.display = "block";
+
+    renderStats();
+  } else {
+    loginMsg.innerText = "Wrong password";
+  }
+};
+
+// ================= STATS =================
+
+function renderStats() {
+  const categories = ["post_larva", "juvenile", "shrimp"];
+
+  let html = `
+    <table class="cp-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Count</th>
+          <th>Mean (%)</th>
+          <th>Std Dev</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  let totalAll = 0;
+
+  categories.forEach(cat => {
+    const data = Model[cat];
+    const values = data.map(d => d.label);
+
+    const count = values.length;
+    totalAll += count;
+
+    const mean = count ? avg(values) : 0;
+    const std = count ? stddev(values, mean) : 0;
+
+    html += `
+      <tr>
+        <td>${cat}</td>
+        <td>${count}</td>
+        <td>${mean.toFixed(1)}</td>
+        <td>${std.toFixed(2)}</td>
+      </tr>
+    `;
+  });
+
+  html += `
+      </tbody>
+    </table>
+    <p><strong>Total dataset:</strong> ${totalAll}</p>
+  `;
+
+  statsTable.innerHTML = html;
+}
+
+// ================= MATH =================
+
+function avg(arr) {
+  return arr.reduce((a, b) => a + b, 0) / arr.length;
+}
+
+function stddev(arr, mean) {
+  return Math.sqrt(
+    arr.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / arr.length
+  );
+}
