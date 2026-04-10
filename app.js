@@ -4,6 +4,12 @@ import { extractFeatures } from "./js/feature.js";
 import { computeHash } from "./js/hash.js";
 import { addSample, Model } from "./js/model.js";
 import { exportModel, importModel } from "./js/storage.js";
+import { saveModel, loadModel } from "./js/autosave.js";
+
+// ================= INIT =================
+
+// load model dari localStorage saat page load
+loadModel();
 
 // ================= UI ELEMENTS =================
 
@@ -80,6 +86,7 @@ button.addEventListener("click", async () => {
   loading.style.display = "none";
 
   updateStats();
+  saveModel(); // 🔥 AUTOSAVE
 });
 
 // ================= STATS =================
@@ -93,6 +100,9 @@ function updateStats() {
   totalEl.innerText = total;
   statusEl.innerText = total > 0 ? "Trained" : "Not trained";
 }
+
+// run saat pertama load
+updateStats();
 
 // ================= DOWNLOAD =================
 
@@ -120,6 +130,7 @@ document.getElementById("uploadDbInput").onchange = async (e) => {
   importModel(text);
 
   updateStats();
+  saveModel(); // 🔥 AUTOSAVE setelah import
 
   alert("Model successfully loaded");
 };
