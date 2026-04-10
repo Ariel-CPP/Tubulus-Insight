@@ -2,8 +2,14 @@
 
 import { extractFeatures } from "./js/feature.js";
 import { predict, getGrade } from "./js/model.js";
+import { loadModel } from "./js/autosave.js";
 
-// ================= UI ELEMENTS =================
+// ================= INIT =================
+
+// load model otomatis saat halaman dibuka
+loadModel();
+
+// ================= UI =================
 
 const input = document.getElementById("imageInput");
 const label = document.getElementById("fileLabel");
