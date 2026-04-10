@@ -4,14 +4,11 @@
   <meta charset="UTF-8" />
   <title>Tubulus Insight – Analysis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<body data-page="analysis">
+<body>
 
-<!-- HEADER -->
 <header class="cp-header">
   <div class="cp-header-inner">
     <div class="cp-brand">
@@ -29,70 +26,40 @@
   </div>
 </header>
 
-<!-- MAIN -->
 <main class="cp-main">
 
-  <!-- HERO -->
-  <section class="cp-hero">
-    <div class="cp-hero-text">
-      <h1 class="cp-hero-title">Tubulus Analysis</h1>
-      <p class="cp-hero-description">
-        Analyze hepatopancreas tubulus images using trained model and export results to Excel.
-      </p>
-    </div>
-  </section>
-
-  <!-- ANALYSIS SECTION -->
   <section class="cp-section">
     <h2 class="cp-section-title">Image Analysis</h2>
 
     <div class="cp-card">
 
-      <!-- CATEGORY -->
       <div class="cp-field-group">
         <label class="cp-field-label">Category</label>
-        <select id="categorySelect" class="cp-select">
+        <select id="categorySelect">
           <option value="post_larva">Post Larva</option>
           <option value="juvenile">Juvenile</option>
           <option value="shrimp">Shrimp</option>
         </select>
       </div>
 
-      <!-- FILE INPUT -->
       <div class="cp-field-group">
         <label class="cp-field-label">Images</label>
 
         <div class="cp-file-row">
-          <input
-            type="file"
-            id="imageInput"
-            multiple
-            accept="image/*"
-            class="cp-file-input"
-          />
-          <label for="imageInput" class="cp-btn cp-btn-outline">
-            Choose Images
-          </label>
-          <span id="fileLabel" class="cp-file-label">
-            No files selected
-          </span>
+          <input type="file" id="imageInput" multiple accept="image/*" class="cp-file-input">
+          <label for="imageInput" class="cp-btn cp-btn-outline">Choose Images</label>
+          <span id="fileLabel" class="cp-file-label">No files selected</span>
         </div>
       </div>
 
-      <!-- PREVIEW -->
       <div id="previewContainer" class="cp-grid-2"></div>
 
-      <!-- BUTTON -->
       <button id="analyzeBtn" class="cp-btn cp-btn-primary">
         Analyze Images
       </button>
 
-      <!-- LOADING -->
-      <div id="loading" class="cp-helper-text" style="display:none;">
-        ⏳ Processing analysis...
-      </div>
+      <div id="loading" style="display:none;">Processing...</div>
 
-      <!-- RESULTS -->
       <div id="results" class="cp-grid-2"></div>
 
     </div>
@@ -100,15 +67,13 @@
 
 </main>
 
-<!-- FOOTER -->
 <footer class="cp-footer">
-  Tubulus Insight – Shrimp Hepatopancreas Analysis Tool
+  Tubulus Insight
 </footer>
 
-<!-- XLSX LIBRARY (WAJIB UNTUK EXCEL EXPORT) -->
+<!-- WAJIB UNTUK EXCEL -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
-<!-- MAIN SCRIPT -->
 <script type="module" src="analysis.js"></script>
 
 </body>
