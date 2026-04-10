@@ -321,3 +321,21 @@ body {
 }
   color: var(--cp-text-muted);
 }
+/* ===== TABLE ===== */
+
+.cp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.cp-table th {
+  background: #f1f5f9;
+  padding: 10px;
+  text-align: left;
+}
+
+.cp-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
