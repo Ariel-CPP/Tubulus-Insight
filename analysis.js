@@ -1,80 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Tubulus Insight – Analysis</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
-</head>
+import { extractFeatures } from "./js/feature.js";
+import { predict, getGrade } from "./js/model.js";
+import { loadModel } from "./js/autosave.js";
 
-<body>
+loadModel();
 
-<header class="cp-header">
-  <div class="cp-header-inner">
-    <div class="cp-brand">
-      <div class="cp-logo-circle">TI</div>
-      <div>
-        <div class="cp-brand-name">Tubulus Insight</div>
-        <div class="cp-brand-subtitle">Hepatopancreas Nutrition AI</div>
-      </div>
-    </div>
+const input = document.getElementById("imageInput");
+const label = document.getElementById("fileLabel");
+const button = document.getElementById("analyzeBtn");
+const loading = document.getElementById("loading");
+const results = document.getElementById("results");
+const previewContainer = document.getElementById("previewContainer");
+const categorySelect = document.getElementById("categorySelect");
 
-    <nav class="cp-nav">
-      <a href="index.html" class="cp-nav-link">Training</a>
-      <a href="analysis.html" class="cp-nav-link cp-nav-link-active">Analysis</a>
-    </nav>
-  </div>
-</header>
+let analysisResults = [];
 
-<main class="cp-main">
+// PREVIEW
+input.addEventListener("change", () => {
+  label.innerText = `${input.files.length} files selected`;
 
-  <section class="cp-section">
-    <h2 class="cp-section-title">Image Analysis</h2>
+  previewContainer.innerHTML = "";
 
-    <div class="cp-card">
+  Array.from(input.files).forEach(file => {
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    previewContainer.appendChild(img);
+  });
+});
 
-      <div class="cp-field-group">
-        <label class="cp-field-label">Category</label>
-        <select id="categorySelect">
-          <option value="post_larva">Post Larva</option>
-          <option value="juvenile">Juvenile</option>
-          <option value="shrimp">Shrimp</option>
-        </select>
-      </div>
+// ANALYSIS
+button.addEventListener("click", async () => {
+  const files = input.files;
+  const category = categorySelect.value;
 
-      <div class="cp-field-group">
-        <label class="cp-field-label">Images</label>
+  if (!files.length) {
+    alert("Please select images first");
+    return;
+  }
 
-        <div class="cp-file-row">
-          <input type="file" id="imageInput" multiple accept="image/*" class="cp-file-input">
-          <label for="imageInput" class="cp-btn cp-btn-outline">Choose Images</label>
-          <span id="fileLabel" class="cp-file-label">No files selected</span>
+  results.innerHTML = "";
+  analysisResults = [];
+  loading.style.display = "block";
+
+  for (let file of files) {
+    try {
+      const feature = await extractFeatures(file);
+      const pred = predict(category, feature);
+
+      if (!pred) {
+        results.innerHTML += `<div class="cp-card">Model not trained</div>`;
+        continue;
+      }
+
+      const grade = getGrade(pred.percentage);
+
+      analysisResults.push({
+        "Nama file": file.name,
+        "Prediction Nutrition partikel (%)": pred.percentage,
+        "Grade": grade,
+        "confidence rate": Number(pred.confidence.toFixed(2))
+      });
+
+      results.innerHTML += `
+        <div class="cp-card">
+          <b>${file.name}</b><br>
+          ${pred.percentage}% | Grade ${grade}<br>
+          Confidence: ${pred.confidence.toFixed(2)}
         </div>
-      </div>
+      `;
 
-      <div id="previewContainer" class="cp-grid-2"></div>
+    } catch {
+      results.innerHTML += `<div class="cp-card">Error</div>`;
+    }
+  }
 
-      <button id="analyzeBtn" class="cp-btn cp-btn-primary">
-        Analyze Images
-      </button>
+  loading.style.display = "none";
 
-      <div id="loading" style="display:none;">Processing...</div>
+  if (analysisResults.length > 0) addExportButton();
+});
 
-      <div id="results" class="cp-grid-2"></div>
+// EXPORT
+function addExportButton() {
+  const btn = document.createElement("button");
+  btn.innerText = "Download Excel";
+  btn.className = "cp-btn cp-btn-primary";
+  btn.style.marginTop = "20px";
 
-    </div>
-  </section>
+  btn.onclick = exportExcel;
 
-</main>
+  results.appendChild(btn);
+}
 
-<footer class="cp-footer">
-  Tubulus Insight
-</footer>
+function exportExcel() {
+  const ws = XLSX.utils.json_to_sheet(analysisResults);
+  const wb = XLSX.utils.book_new();
 
-<!-- 🔥 WAJIB -->
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  XLSX.utils.book_append_sheet(wb, ws, "Results");
 
-<script type="module" src="analysis.js"></script>
-
-</body>
-</html>
+  XLSX.writeFile(wb, "tubulus_analysis.xlsx");
+}
