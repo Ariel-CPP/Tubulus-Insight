@@ -1,4 +1,4 @@
-/* Google font – modern, bersih */
+/* Google font */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
@@ -16,7 +16,7 @@
   --cp-shadow-soft: 0 8px 18px rgba(0, 59, 111, 0.12);
 }
 
-/* Global */
+/* GLOBAL */
 
 *,
 *::before,
@@ -26,18 +26,16 @@
 
 body {
   margin: 0;
-  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+  font-family: "Poppins", sans-serif;
   background: radial-gradient(circle at top, #fdfefe 0, var(--cp-bg) 55%, #e5edf7 100%);
   color: var(--cp-text-main);
 }
 
-/* Header */
+/* HEADER */
 
 .cp-header {
   background: linear-gradient(90deg, var(--cp-blue-dark), var(--cp-blue));
-  color: #ffffff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  color: #fff;
   position: sticky;
   top: 0;
   z-index: 50;
@@ -48,8 +46,8 @@ body {
   margin: 0 auto;
   padding: 12px 20px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
 .cp-brand {
@@ -61,31 +59,25 @@ body {
 .cp-logo-circle {
   width: 40px;
   height: 40px;
-  border-radius: 999px;
+  border-radius: 50%;
   background: radial-gradient(circle at 30% 30%, #ffe9a8, var(--cp-gold-dark));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  color: #00324f;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
-}
-
-.cp-brand-text {
-  display: flex;
-  flex-direction: column;
+  font-weight: bold;
 }
 
 .cp-brand-name {
   font-size: 15px;
   font-weight: 600;
-  letter-spacing: 0.04em;
 }
 
 .cp-brand-subtitle {
   font-size: 11px;
-  opacity: 0.85;
+  opacity: 0.8;
 }
+
+/* NAV */
 
 .cp-nav {
   display: flex;
@@ -95,163 +87,111 @@ body {
 .cp-nav-link {
   padding: 8px 18px;
   border-radius: 999px;
-  border: 1px solid transparent;
-  font-size: 14px;
-  text-decoration: none;
   color: #e5f3ff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.18s ease;
-}
-
-.cp-nav-link:hover {
-  background: rgba(255, 255, 255, 0.12);
+  text-decoration: none;
 }
 
 .cp-nav-link-active {
-  background: #ffffff;
+  background: #fff;
   color: var(--cp-blue-dark);
-  border-color: rgba(0, 0, 0, 0.08);
 }
 
-/* Layout */
+/* MAIN */
 
 .cp-main {
   max-width: 1160px;
-  margin: 26px auto 40px;
+  margin: 30px auto;
   padding: 0 20px;
 }
 
+/* HERO */
+
 .cp-hero {
   display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 28px;
-}
-
-.cp-hero-text {
-  flex: 1 1 340px;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .cp-hero-title {
-  margin: 0 0 6px;
   font-size: 28px;
   font-weight: 700;
-  color: var(--cp-blue-dark);
 }
 
 .cp-hero-description {
-  margin: 0;
   font-size: 14px;
   color: var(--cp-text-muted);
-  max-width: 640px;
 }
 
+/* STATS */
+
 .cp-hero-stats {
-  flex: 0 0 auto;
   display: flex;
   gap: 12px;
 }
 
 .cp-stat-card {
-  background: #ffffff;
-  border-radius: var(--cp-radius-lg);
+  background: #fff;
   padding: 12px 16px;
+  border-radius: var(--cp-radius-lg);
   box-shadow: var(--cp-shadow-soft);
-  min-width: 150px;
-}
-
-.cp-stat-label {
-  display: block;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--cp-text-muted);
 }
 
 .cp-stat-value {
-  display: block;
-  margin-top: 4px;
   font-size: 22px;
   font-weight: 700;
-  color: var(--cp-blue-dark);
 }
 
-.cp-stat-pill {
-  display: inline-flex;
-  margin-top: 6px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  background: var(--cp-blue-soft);
-  color: var(--cp-blue-dark);
-}
-
-/* Sections */
+/* SECTION */
 
 .cp-section {
-  margin-top: 26px;
+  margin-top: 30px;
 }
 
 .cp-section-title {
-  margin: 0 0 6px;
   font-size: 20px;
-  color: var(--cp-blue-dark);
+  margin-bottom: 6px;
 }
 
 .cp-section-description {
-  margin: 0 0 14px;
   font-size: 14px;
   color: var(--cp-text-muted);
 }
 
-/* Cards */
+/* CARD */
 
 .cp-card {
-  background: #ffffff;
+  background: #fff;
   border-radius: var(--cp-radius-lg);
-  padding: 18px;
+  padding: 20px;
   box-shadow: var(--cp-shadow-soft);
 }
 
-.cp-card-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--cp-blue-dark);
-}
-
-.cp-card-text {
-  font-size: 13px;
-  color: var(--cp-text-muted);
-}
-
-/* Grid */
-
-.cp-grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-@media (max-width: 820px) {
-  .cp-grid-2 {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Inputs */
+/* FIELD */
 
 .cp-field-group {
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
 
 .cp-field-label {
+  display: block;
   font-size: 13px;
   font-weight: 500;
-  color: var(--cp-blue-dark);
+  margin-bottom: 6px;
+}
+
+/* 🔥 FIX UTAMA ADA DI SINI */
+
+.cp-file-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  background: #f8fbff;
+  border: 1px solid var(--cp-border-soft);
+  border-radius: var(--cp-radius-md);
+  padding: 10px 12px;
 }
 
 .cp-file-input {
@@ -261,39 +201,67 @@ body {
 .cp-file-label {
   font-size: 13px;
   color: var(--cp-text-muted);
+  flex: 1; /* biar tidak numpuk */
+  min-width: 150px;
 }
 
-/* Buttons */
+/* BUTTON */
 
 .cp-btn {
   border-radius: 999px;
-  padding: 9px 18px;
+  padding: 9px 16px;
   font-size: 14px;
   cursor: pointer;
 }
 
 .cp-btn-primary {
-  background: var(--cp-blue);
-  color: white;
+  background: linear-gradient(135deg, var(--cp-blue), var(--cp-blue-dark));
+  color: #fff;
 }
 
 .cp-btn-outline {
   border: 1px solid var(--cp-blue);
-  background: white;
+  background: #fff;
+  color: var(--cp-blue-dark);
 }
 
-/* Log */
+/* LOG */
 
 .cp-log {
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 12px;
+  max-height: 150px;
+  overflow-y: auto;
 }
 
-/* Footer */
+/* PREVIEW */
+
+#previewContainer img {
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+/* GRID */
+
+.cp-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 800px) {
+  .cp-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* FOOTER */
 
 .cp-footer {
   text-align: center;
   font-size: 11px;
-  color: var(--cp-text-muted);
+  margin-top: 40px;
   padding: 20px;
+  color: var(--cp-text-muted);
 }
